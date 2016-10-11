@@ -69,10 +69,9 @@ def parse_event(event):
 
 def print_all(events):
     now = datetime.datetime.now().replace(tzinfo = dateutil.tz.gettz("America/Los_Angeles")).astimezone(dateutil.tz.gettz("Asia/Shanghai"))
-    print("<h1>last updated: %s</h1>" % now.strftime("%Y %m %d - %H:%M"))
+    print("<h1>last updated at: %s</h1>" % now.strftime("%Y-%m-%d  %H:%M"))
     for event in events:
         print(event["start"].strftime("%b %d %H:%M:%S") + " - " + event["end"].strftime("%b %d %H:%M:%S"))
-        print(event["start"].minute)
         print("<br />")
 
 def main():
@@ -86,7 +85,6 @@ def main():
     service = discovery.build('calendar', 'v3', http=http)
 
     now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
-    print('Getting the upcoming 10 events')
     eventsResult = service.events().list(
         calendarId='primary', timeMin=now, maxResults=10, singleEvents=True,
         orderBy='startTime').execute()
